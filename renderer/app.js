@@ -40,7 +40,7 @@ function statusLine(g) {
   if (g.status === 'coming-soon') return 'Coming soon';
   if (state.launcherUpdateReady || g.launcherTooOld) return 'Restart launcher to play';
   return {
-        'not-installed': g.onDevice ? 'Already on this PC · add it, no download' : g.size ? `Not installed · ${fmtBytes(g.size)}` : 'Not installed',
+        'not-installed': g.size ? `Not installed · ${fmtBytes(g.size)}` : 'Not installed',
     'update-available': `Update required · v${g.version}`,
     'switch-build': `Switching to ${buildLabel(g.selectedBuild)}`,
     installed: `v${g.installedVersion} · ${buildLabel(g.installedBuild)}`,
@@ -66,7 +66,7 @@ function actionButton(g, { compact = false } = {}) {
   if (g.status === 'coming-soon') return `<button class="btn soon" disabled>Coming soon</button>`;
   if (state.launcherUpdateReady || g.launcherTooOld) return `<button class="btn update" data-act="restart">Restart to update</button>`;
   switch (g.status) {
-    case 'not-installed': return g.onDevice ? `<button class="btn play" data-act="install">Add to library</button>` : `<button class="btn play" data-act="install">Install</button>`;
+    case 'not-installed': return `<button class="btn play" data-act="install">Install</button>`;
     case 'update-available': return `<button class="btn update" data-act="install">Update</button>`;
     case 'switch-build': return `<button class="btn update" data-act="install">Download ${buildLabel(g.selectedBuild)}</button>`;
     case 'running': return `<button class="btn play" disabled>Playing</button>`;
@@ -217,7 +217,6 @@ function renderGame(id) {
               g.status === 'coming-soon' ? `<span>Follow along. It'll show up here the moment it drops.</span>` :
               g.installedVersion ? `<span>Installed <b>v${esc(g.installedVersion)}</b> · ${buildLabel(g.installedBuild)}</span>` :
               g.type === 'web' ? `<span>Plays inside the launcher, nothing to install</span>` :
-              g.onDevice ? `<span>Another account on this PC installed it. Adding it doesn't download anything.</span>` :
               `<span>Download <b>${esc(fmtBytes(g.size) || '—')}</b></span>`}
             ${g.needsPrepare ? '<span class="hot">Shaders rebuild on launch</span>' : ''}
           </div>
@@ -305,8 +304,6 @@ async function renderDevice() {
   const dev = await api.deviceGames();
   if (state.view.name !== 'device') return;
   const total = dev.games.reduce((n, g) => n + (g.sizeBytes || 0), 0);
-  const who = (g) => g.mine && g.otherAccounts ? `In your library and ${g.otherAccounts === 1 ? '1 other account' : `${g.otherAccounts} other accounts`}`
-    : g.mine ? 'In your library' : `Installed by ${g.otherAccounts === 1 ? 'another account' : `${g.otherAccounts} other accounts`} on this PC`;
   $('#view').innerHTML = `
     <section class="lib">
       <div class="lib-head"><h1>Games on this PC</h1><button class="btn ghost small" data-nav="library">Back to library</button></div>
@@ -316,7 +313,7 @@ async function renderDevice() {
           <div class="thumb" style="background-image:${url(g.banner)}"></div>
           <div>
             <div class="t">${esc(g.title)}</div>
-            <div class="s"><span>v${esc(g.version)} · ${esc(buildLabel(g.build))}</span><span>${esc(fmtBytes(g.sizeBytes) || '—')}</span><span class="${g.mine ? '' : 'hot'}">${esc(who(g))}</span></div>
+            <div class="s"><span>v${esc(g.version)} · ${esc(buildLabel(g.build))}</span><span>${esc(fmtBytes(g.sizeBytes) || '—')}</span>${g.installedAt ? `<span>Installed ${esc(new Date(g.installedAt).toLocaleDateString())}</span>` : ''}</div>
           </div>
           <div class="acts" data-id="${esc(g.id)}">
             <button class="btn ghost small" data-act="folder">Open folder</button>
@@ -432,7 +429,7 @@ document.addEventListener('click', async (e) => {
       if (r && !r.ok && r.error) toast(r.error);
       await load(); refresh();
     } else if (a === 'cancel') api.cancel(id);
-    else if (a === 'uninstall') { const r = await api.uninstall(id); if (r?.ok) toast(r.removedFiles ? 'Uninstalled from this PC.' : 'Removed from your library.'); }
+    else if (a === 'uninstall') { const r = await api.uninstall(id); if (r?.ok) toast('Uninstalled from this PC.'); else if (r?.error) toast(r.error); }
     else if (a === 'uninstall-device') { const r = await api.uninstallFromDevice(id); if (r?.ok) { toast('Uninstalled from this PC.'); render(); } else if (r?.error) toast(r.error); }
     else if (a === 'folder') api.openFolder(id);
     else if (a === 'restart') api.restartToUpdate();
