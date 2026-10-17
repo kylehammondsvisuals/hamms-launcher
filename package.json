@@ -1,7 +1,7 @@
 {
   "name": "hamms-launcher",
   "productName": "HAMMS Studios",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "Download, update and play every HAMMS Studios game.",
   "author": "HAMMS Studios",
   "main": "main.js",

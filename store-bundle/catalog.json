@@ -1,7 +1,7 @@
 {
   "studio": "HAMMS Studios",
   "schema": 2,
-  "generatedAt": "2026-10-15T17:37:34.748Z",
+  "generatedAt": "2026-10-17T04:29:07.168Z",
   "games": [
     {
       "id": "sweetfang",
@@ -189,21 +189,53 @@
       },
       "executable": "BrickWorkshop.exe",
       "launchArgs": [
-        "--disable-features=ImmersiveReadAnything"
+        "--disable-features=ImmersiveReadAnything,ReadAnything,ReadAnythingOmniboxChip,ReadAnythingSidePanel,HardwareMediaKeyHandling,GlobalMediaControls,MediaRouter,Glic"
+      ],
+      "settingsGuard": [
+        {
+          "dir": "{appdata}/Godot/app_userdata/Brick Workshop",
+          "files": "^brick_workshop_.*\\.json$",
+          "create": "brick_workshop_default.json",
+          "set": {
+            "settings.server_host": false
+          },
+          "exceptHosts": [
+            "DESKTOP-3373MN4"
+          ],
+          "home": {
+            "publicIp": "24.166.115.216",
+            "set": {
+              "settings.server_address": "192.168.1.196"
+            },
+            "away": {
+              "settings.server_address": ""
+            }
+          }
+        }
       ],
       "builds": {
         "standard": {
           "label": "High",
-          "version": "0.3.1",
-          "downloadUrl": "https://github.com/kylehammondsvisuals/hamms-games/releases/download/brick-workshop-v0.3.1/brick-workshop-0.3.1.zip",
-          "sha256": "b5372ed5253d234da831f5c282f249376aefa42c72bc4d88df548414a972c280",
-          "size": 261913346,
+          "version": "0.3.2",
+          "downloadUrl": "https://github.com/kylehammondsvisuals/hamms-games/releases/download/brick-workshop-v0.3.2/brick-workshop-0.3.2.zip",
+          "sha256": "9eb5f438f7374c3bebe15f9c0a91cdc82cbead8e19b8c470b247e4ce72974b36",
+          "size": 262116120,
           "executable": "BrickWorkshop.exe",
           "launchArgs": [
-            "--disable-features=ImmersiveReadAnything"
+            "--disable-features=ImmersiveReadAnything,ReadAnything,ReadAnythingOmniboxChip,ReadAnythingSidePanel,HardwareMediaKeyHandling,GlobalMediaControls,MediaRouter,Glic"
           ],
-          "released": "2026-10-15",
+          "released": "2026-10-17",
           "patchNotes": [
+            {
+              "version": "0.3.2",
+              "date": "2026-10-17",
+              "changes": [
+                "New: Car racing! Walk up to the RACE! podium and race the cars you've built",
+                "Big Screen: YouTube no longer crashes the game",
+                "Big Screen: click a video and it plays straight on the TV, keeps playing when you walk away",
+                "Big Screen: full controller support for browsing and searching YouTube"
+              ]
+            },
             {
               "version": "0.3.1",
               "date": "2026-10-15",
@@ -229,7 +261,7 @@
           "size": 261913370,
           "executable": "BrickWorkshop.exe",
           "launchArgs": [
-            "--disable-features=ImmersiveReadAnything"
+            "--disable-features=ImmersiveReadAnything,ReadAnything,ReadAnythingOmniboxChip,ReadAnythingSidePanel,HardwareMediaKeyHandling,GlobalMediaControls,MediaRouter,Glic"
           ],
           "released": "2026-10-15",
           "patchNotes": [

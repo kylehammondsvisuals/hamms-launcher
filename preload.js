@@ -6,6 +6,8 @@ contextBridge.exposeInMainWorld('hamms', {
   setBuild: (id, build) => ipcRenderer.invoke('set-build', id, build),
   cancel: (id) => ipcRenderer.invoke('cancel', id),
   uninstall: (id) => ipcRenderer.invoke('uninstall', id),
+  deviceGames: () => ipcRenderer.invoke('device-games'),
+  uninstallFromDevice: (id) => ipcRenderer.invoke('uninstall-device', id),
   play: (id) => ipcRenderer.invoke('play', id),
   openFolder: (id) => ipcRenderer.invoke('open-folder', id),
   openLink: (url) => ipcRenderer.invoke('open-link', url),

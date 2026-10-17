@@ -249,6 +249,11 @@ img { display: block; }
 .lrow .s { color: var(--muted); font-size: 12px; margin-top: 4px; display: flex; gap: 12px; flex-wrap: wrap; }
 .lrow .s .hot { color: var(--amber); }
 .lrow .acts { display: flex; gap: 10px; align-items: center; min-width: 260px; justify-content: flex-end; }
+.lib-head-btns { display: flex; gap: 10px; }
+.dev-sum { display: flex; gap: 22px; color: var(--muted); font-size: 13px; margin: -8px 0 18px; }
+.dev-sum b { color: var(--text, #fff); }
+.btn.danger { color: #ff8a8a; border-color: rgba(255, 110, 110, .35); }
+.btn.danger:hover:not(:disabled) { background: rgba(255, 90, 90, .12); }
 .lrow .btn.play, .lrow .btn.update { min-width: 150px; padding: 12px 22px; font-size: 12px; }
 .empty { text-align: center; padding: 90px 20px; color: var(--muted); }
 .empty img { width: 90px; margin: 0 auto 18px; opacity: .7; }

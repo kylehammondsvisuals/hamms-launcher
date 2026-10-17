@@ -40,7 +40,7 @@ function statusLine(g) {
   if (g.status === 'coming-soon') return 'Coming soon';
   if (state.launcherUpdateReady || g.launcherTooOld) return 'Restart launcher to play';
   return {
-    'not-installed': g.size ? `Not installed · ${fmtBytes(g.size)}` : 'Not installed',
+        'not-installed': g.onDevice ? 'Already on this PC · add it, no download' : g.size ? `Not installed · ${fmtBytes(g.size)}` : 'Not installed',
     'update-available': `Update required · v${g.version}`,
     'switch-build': `Switching to ${buildLabel(g.selectedBuild)}`,
     installed: `v${g.installedVersion} · ${buildLabel(g.installedBuild)}`,
@@ -66,7 +66,7 @@ function actionButton(g, { compact = false } = {}) {
   if (g.status === 'coming-soon') return `<button class="btn soon" disabled>Coming soon</button>`;
   if (state.launcherUpdateReady || g.launcherTooOld) return `<button class="btn update" data-act="restart">Restart to update</button>`;
   switch (g.status) {
-    case 'not-installed': return `<button class="btn play" data-act="install">Install</button>`;
+    case 'not-installed': return g.onDevice ? `<button class="btn play" data-act="install">Add to library</button>` : `<button class="btn play" data-act="install">Install</button>`;
     case 'update-available': return `<button class="btn update" data-act="install">Update</button>`;
     case 'switch-build': return `<button class="btn update" data-act="install">Download ${buildLabel(g.selectedBuild)}</button>`;
     case 'running': return `<button class="btn play" disabled>Playing</button>`;
@@ -217,6 +217,7 @@ function renderGame(id) {
               g.status === 'coming-soon' ? `<span>Follow along. It'll show up here the moment it drops.</span>` :
               g.installedVersion ? `<span>Installed <b>v${esc(g.installedVersion)}</b> · ${buildLabel(g.installedBuild)}</span>` :
               g.type === 'web' ? `<span>Plays inside the launcher, nothing to install</span>` :
+              g.onDevice ? `<span>Another account on this PC installed it. Adding it doesn't download anything.</span>` :
               `<span>Download <b>${esc(fmtBytes(g.size) || '—')}</b></span>`}
             ${g.needsPrepare ? '<span class="hot">Shaders rebuild on launch</span>' : ''}
           </div>
@@ -266,6 +267,7 @@ function renderGame(id) {
           <button class="btn ghost small" data-act="repair">Repair</button>
           <button class="btn ghost small" data-act="uninstall">Uninstall</button>
         </div>` : ''}
+        <button class="btn ghost small" data-nav="device" style="margin-top:10px;width:100%">Games on this PC</button>
       </aside>
     </section>`;
   state.pageShots = shots;
@@ -277,7 +279,7 @@ function renderLibrary() {
   const owned = state.games.filter(isOwned);
   $('#view').innerHTML = `
     <section class="lib">
-      <div class="lib-head"><h1>Library</h1><button class="btn ghost small" data-nav="store">Browse the store</button></div>
+      <div class="lib-head"><h1>Library</h1><div class="lib-head-btns"><button class="btn ghost small" data-nav="device">Games on this PC</button><button class="btn ghost small" data-nav="store">Browse the store</button></div></div>
       ${owned.length ? owned.map((g) => `
         <div class="lrow">
           <div class="thumb" data-open="${esc(g.id)}" style="background-image:${url(g.media.banner)}"></div>
@@ -296,12 +298,45 @@ function renderLibrary() {
     </section>`;
 }
 
+// ---------- GAMES ON THIS PC ----------
+// Every game installed here, by any HAMMS account, with its size and an uninstall button.
+async function renderDevice() {
+  $('#view').innerHTML = `<section class="lib"><div class="lib-head"><h1>Games on this PC</h1></div><div class="empty"><p>Checking your games…</p></div></section>`;
+  const dev = await api.deviceGames();
+  if (state.view.name !== 'device') return;
+  const total = dev.games.reduce((n, g) => n + (g.sizeBytes || 0), 0);
+  const who = (g) => g.mine && g.otherAccounts ? `In your library and ${g.otherAccounts === 1 ? '1 other account' : `${g.otherAccounts} other accounts`}`
+    : g.mine ? 'In your library' : `Installed by ${g.otherAccounts === 1 ? 'another account' : `${g.otherAccounts} other accounts`} on this PC`;
+  $('#view').innerHTML = `
+    <section class="lib">
+      <div class="lib-head"><h1>Games on this PC</h1><button class="btn ghost small" data-nav="library">Back to library</button></div>
+      <div class="dev-sum"><span>${dev.games.length} ${dev.games.length === 1 ? 'game' : 'games'} · <b>${esc(fmtBytes(total) || '0 B')}</b> used</span>${dev.freeBytes != null ? `<span>${esc(fmtBytes(dev.freeBytes))} free on this drive</span>` : ''}</div>
+      ${dev.games.length ? dev.games.map((g) => `
+        <div class="lrow">
+          <div class="thumb" style="background-image:${url(g.banner)}"></div>
+          <div>
+            <div class="t">${esc(g.title)}</div>
+            <div class="s"><span>v${esc(g.version)} · ${esc(buildLabel(g.build))}</span><span>${esc(fmtBytes(g.sizeBytes) || '—')}</span><span class="${g.mine ? '' : 'hot'}">${esc(who(g))}</span></div>
+          </div>
+          <div class="acts" data-id="${esc(g.id)}">
+            <button class="btn ghost small" data-act="folder">Open folder</button>
+            <button class="btn ghost small danger" data-act="uninstall-device" ${g.running || g.busy ? 'disabled' : ''}>${g.running ? 'Close the game first' : g.busy ? 'Updating…' : 'Uninstall from this PC'}</button>
+          </div>
+        </div>`).join('') : `
+        <div class="empty">
+          <img src="brand/hamms-emblem.png" alt="" />
+          <h2>NO GAMES ON THIS PC</h2>
+          <p>Games you install from the store show up here.</p>
+        </div>`}
+    </section>`;
+}
+
 // ---------- routing ----------
 const navStack = [];
 function navigate(view, { push = true } = {}) {
   if (push && (state.view.name !== view.name || view.id !== state.view.id)) navStack.push(state.view);
   state.view = view;
-  $$('.tab').forEach((t) => t.classList.toggle('active', t.dataset.nav === (view.name === 'library' ? 'library' : 'store')));
+  $$('.tab').forEach((t) => t.classList.toggle('active', t.dataset.nav === (['library', 'device'].includes(view.name) ? 'library' : 'store')));
   render();
   $('#view').scrollTop = 0;
 }
@@ -309,6 +344,7 @@ function render() {
   if (state.view.name !== 'store') clearInterval(heroTimer);
   if (state.view.name === 'store') renderStore();
   else if (state.view.name === 'library') renderLibrary();
+  else if (state.view.name === 'device') renderDevice();
   else if (state.view.name === 'game') renderGame(state.view.id);
   renderChrome();
 }
@@ -396,7 +432,8 @@ document.addEventListener('click', async (e) => {
       if (r && !r.ok && r.error) toast(r.error);
       await load(); refresh();
     } else if (a === 'cancel') api.cancel(id);
-    else if (a === 'uninstall') api.uninstall(id);
+    else if (a === 'uninstall') { const r = await api.uninstall(id); if (r?.ok) toast(r.removedFiles ? 'Uninstalled from this PC.' : 'Removed from your library.'); }
+    else if (a === 'uninstall-device') { const r = await api.uninstallFromDevice(id); if (r?.ok) { toast('Uninstalled from this PC.'); render(); } else if (r?.error) toast(r.error); }
     else if (a === 'folder') api.openFolder(id);
     else if (a === 'restart') api.restartToUpdate();
     return;
@@ -409,6 +446,7 @@ $('#settings-btn').addEventListener('click', () => $('#settings').classList.remo
 $('#pc-chip').addEventListener('click', () => $('#settings').classList.remove('hidden'));
 $('#settings').addEventListener('click', (e) => { if (e.target.id === 'settings' || e.target.closest('[data-close]')) $('#settings').classList.add('hidden'); });
 $('#auto-update').addEventListener('change', (e) => api.saveSettings({ autoUpdate: e.target.checked }));
+$('#manage-games').addEventListener('click', () => { $('#settings').classList.add('hidden'); navigate({ name: 'device' }); });
 $('#check').addEventListener('click', async () => { $('#check').textContent = 'Checking…'; await api.checkUpdates(); $('#check').textContent = 'Check for updates now'; });
 $('#update-restart').addEventListener('click', () => api.restartToUpdate());
 

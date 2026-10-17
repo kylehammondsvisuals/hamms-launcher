@@ -167,7 +167,13 @@ ipcMain.handle('get-library', async (_e, { refresh } = {}) => {
 
 // ---------- accounts ----------
 const authState = () => ({ configured: accounts.configured, signedIn: accounts.signedIn, profile: accounts.profile, pendingLaunch });
-const wrap = (fn) => async (_e, arg) => { try { const r = await fn(arg); send('auth-changed', authState()); return { ok: true, ...r, state: authState() }; } catch (err) { return { ok: false, error: err.message, code: err.code }; } };
+// Each HAMMS account has its own library, so the game list changes with whoever is signed in.
+function syncUser() {
+  if (!gm) return;
+  gm.setUser(accounts.signedIn ? accounts.profile?.id : null);
+  send('library-changed');
+}
+const wrap = (fn) => async (_e, arg) => { try { const r = await fn(arg); syncUser(); send('auth-changed', authState()); return { ok: true, ...r, state: authState() }; } catch (err) { return { ok: false, error: err.message, code: err.code }; } };
 ipcMain.handle('auth-state', () => authState());
 ipcMain.handle('auth-sign-in', wrap((a) => accounts.signIn(a)));
 ipcMain.handle('auth-sign-up', wrap((a) => accounts.signUp(a)));
@@ -181,19 +187,59 @@ ipcMain.handle('install', (_e, id, buildId) => runInstall(id, buildId));
 ipcMain.handle('cancel', (_e, id) => { gm.cancel(id); return true; });
 ipcMain.handle('set-build', (_e, id, buildId) => { gm.setBuildChoice(id, buildId); send('library-changed'); return true; });
 
+// Uninstall from a game's page. If other HAMMS accounts on this PC also have the game, the
+// player chooses between taking it out of their library and deleting it for everyone.
 ipcMain.handle('uninstall', async (_e, id) => {
   const game = gm.findGame(id);
+  const record = gm.getInstalled()[id];
+  const others = (record?.owners || []).filter((o) => o !== gm.uid).length;
+  let fromDevice = true;
+  if (others) {
+    const { response } = await dialog.showMessageBox(win, {
+      type: 'question', buttons: ['Remove from my library', 'Uninstall from this PC', 'Cancel'], defaultId: 0, cancelId: 2,
+      message: `Remove ${game.title}?`,
+      detail: `${others === 1 ? 'Another HAMMS account' : `${others} other HAMMS accounts`} on this PC also ${others === 1 ? 'has' : 'have'} ${game.title}.\n\n` +
+        '"Remove from my library" keeps the game for them. "Uninstall from this PC" deletes the game files for everyone (saves are kept).',
+    });
+    if (response === 2) return { ok: false };
+    fromDevice = response === 1;
+  } else {
+    const { response } = await dialog.showMessageBox(win, {
+      type: 'question', buttons: ['Uninstall', 'Cancel'], defaultId: 1, cancelId: 1,
+      message: `Uninstall ${game.title}?`, detail: 'The game files will be removed from this PC. Your saves are kept.',
+    });
+    if (response !== 0) return { ok: false };
+  }
+  return removeGame(id, fromDevice);
+});
+
+// "Games on this PC": everything installed here, by any account.
+ipcMain.handle('device-games', () => gm.deviceGames());
+ipcMain.handle('uninstall-device', async (_e, id) => {
+  const record = gm.getInstalled()[id];
+  if (!record) return { ok: false };
+  const title = (() => { try { return gm.findGame(id).title; } catch { return id; } })();
+  const others = (record.owners || []).filter((o) => o !== gm.uid).length;
   const { response } = await dialog.showMessageBox(win, {
-    type: 'question', buttons: ['Uninstall', 'Cancel'], defaultId: 1, cancelId: 1,
-    message: `Uninstall ${game.title}?`, detail: 'The game files will be removed from this PC.',
+    type: 'warning', buttons: ['Uninstall', 'Cancel'], defaultId: 1, cancelId: 1,
+    message: `Uninstall ${title} from this PC?`,
+    detail: (others ? `It will also be removed from ${others === 1 ? 'another HAMMS account' : `${others} other HAMMS accounts`} on this PC. ` : '') +
+      'The game files are deleted. Saves are kept.',
   });
   if (response !== 0) return { ok: false };
-  const record = gm.getInstalled()[id];
-  await gm.uninstall(id);
-  removeGameShortcut(id, record);
-  send('library-changed');
-  return { ok: true };
+  return removeGame(id, true);
 });
+async function removeGame(id, fromDevice) {
+  const record = gm.getInstalled()[id];
+  try {
+    const { removedFiles } = await gm.uninstall(id, { fromDevice });
+    if (removedFiles) removeGameShortcut(id, record);
+    send('library-changed');
+    return { ok: true, removedFiles };
+  } catch (err) {
+    return { ok: false, error: err.message };
+  }
+}
 
 ipcMain.handle('play', async (_e, id) => {
   if (!accounts.signedIn) return { ok: false, blocked: 'auth', error: 'Sign in to your HAMMS account to play.' };
@@ -289,6 +335,7 @@ if (!app.requestSingleInstanceLock()) {
       appData: process.env.APPDATA || null,
       pcSpecs,
     });
+    gm.setUser(accounts.signedIn ? accounts.profile?.id : null);
     await gm.refreshCatalog();
     createWindow();
     setupSelfUpdate();

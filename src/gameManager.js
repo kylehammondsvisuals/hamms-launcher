@@ -35,6 +35,7 @@ class GameManager {
     this.catalog = null;
     this.mediaBase = '';
     this.pcSpecs = pcSpecs;
+    this.uid = null; // signed-in HAMMS account: each account has its own library
     this.busy = new Map(); // gameId -> AbortController
     this.running = new Map(); // gameId -> child process
     fs.mkdirSync(this.gamesDir, { recursive: true });
@@ -51,6 +52,31 @@ class GameManager {
     fs.renameSync(tmp, file);
   }
   getInstalled() { return this.readJson(this.stateFile, {}); }
+
+  // ---------- accounts ----------
+  // Game files are shared by everyone on this PC, but each game remembers which HAMMS
+  // accounts added it ("owners"). A game shows as yours only if your account is one of them.
+  setUser(uid) {
+    this.uid = uid || null;
+    if (!this.uid) return;
+    // Installs from before accounts had their own library go to the first account that signs in.
+    const s = this.getInstalled();
+    let changed = false;
+    for (const rec of Object.values(s)) {
+      if (!Array.isArray(rec.owners)) { rec.owners = [this.uid]; changed = true; }
+    }
+    if (changed) this.writeJson(this.stateFile, s);
+  }
+  isMine(rec) {
+    if (!rec) return false;
+    if (!Array.isArray(rec.owners)) return true;
+    return !!this.uid && rec.owners.includes(this.uid);
+  }
+  ownersWith(rec) {
+    const owners = new Set(Array.isArray(rec?.owners) ? rec.owners : []);
+    if (this.uid) owners.add(this.uid);
+    return [...owners];
+  }
   setInstalled(id, info) {
     const s = this.getInstalled();
     if (info) s[id] = info; else delete s[id];
@@ -159,7 +185,9 @@ class GameManager {
   library() {
     const installed = this.getInstalled();
     return (this.catalog?.games || []).map((g) => {
-      const inst = installed[g.id];
+      const rec = installed[g.id];
+      const inst = this.isMine(rec) ? rec : null; // someone else's install isn't in your library
+      const onDevice = !!rec && !inst;
       const buildId = this.selectedBuild(g, inst);
       const build = g.builds?.[buildId] || null;
       let status = 'not-installed';
@@ -188,6 +216,8 @@ class GameManager {
         patchNotes: build?.patchNotes || [],
         installedVersion: inst?.version || null,
         installedBuild: inst?.build || null,
+        onDevice, // the files are on this PC (another account installed it): adding it is instant
+        deviceVersion: rec?.version || null,
         needsPrepare: !!inst?.needsPrepare,
         pcCheck: this.rate(g),
         launcherTooOld,
@@ -208,9 +238,18 @@ class GameManager {
     if (game.type === 'web') throw new Error('Web games do not need installing');
     if (this.busy.has(id)) throw new Error('Already downloading');
     if (this.running.has(id)) throw new Error('Close the game before updating it');
-    buildId = buildId || this.selectedBuild(game, this.getInstalled()[id]);
+    const existing = this.getInstalled()[id];
+    buildId = buildId || this.selectedBuild(game, existing);
     const build = game.builds?.[buildId];
     if (!build) throw new Error(`${game.title} doesn't have a ${buildId === 'lite' ? 'Low Spec' : 'High'} build yet`);
+
+    // Already on this PC from another account, same build and up to date: just add it to this library.
+    if (existing && !this.isMine(existing) && existing.build === buildId && compareVersions(build.version, existing.version) <= 0
+        && fs.existsSync(path.join(this.gameFolder(id), existing.executable || ''))) {
+      this.setInstalled(id, { ...existing, owners: this.ownersWith(existing) });
+      onProgress({ phase: 'done', percent: 100 });
+      return { ok: true, version: existing.version, build: buildId, added: true };
+    }
 
     const ac = new AbortController();
     this.busy.set(id, ac);
@@ -259,12 +298,15 @@ class GameManager {
       // so the game rebuilds them (this is the "shaders re-upload" step).
       await this.clearShaderCaches(game);
 
+      const prev = this.getInstalled()[id];
       this.setInstalled(id, {
         version: build.version,
         build: buildId,
         installedAt: new Date().toISOString(),
         executable: exeRel,
         needsPrepare: !!game.prepare, // run the shader step on next Play
+        owners: this.ownersWith(prev),
+        ...(prev?.shortcut ? { shortcut: prev.shortcut } : {}),
       });
       onProgress({ phase: 'done', percent: 100 });
       return { ok: true, version: build.version, build: buildId };
@@ -285,10 +327,46 @@ class GameManager {
     if (ac) ac.abort();
   }
 
-  async uninstall(id) {
+  // fromDevice: delete the files for everyone on this PC. Otherwise only take the game out of
+  // this account's library, and delete the files once no account has it any more.
+  // Returns { removedFiles } so the caller knows whether to remove the desktop icon.
+  async uninstall(id, { fromDevice = false } = {}) {
     if (this.running.has(id)) throw new Error('Close the game first');
+    const rec = this.getInstalled()[id];
+    const others = (Array.isArray(rec?.owners) ? rec.owners : []).filter((o) => o !== this.uid);
+    if (!fromDevice && rec && others.length) {
+      this.setInstalled(id, { ...rec, owners: others });
+      return { removedFiles: false };
+    }
     await fsp.rm(path.join(this.gamesDir, id), { recursive: true, force: true });
     this.setInstalled(id, null);
+    return { removedFiles: true };
+  }
+
+  // Everything installed on this PC, for the "Games on this PC" page.
+  async deviceGames() {
+    const installed = this.getInstalled();
+    const out = [];
+    for (const [id, rec] of Object.entries(installed)) {
+      const g = (this.catalog?.games || []).find((x) => x.id === id);
+      const owners = Array.isArray(rec.owners) ? rec.owners : [];
+      out.push({
+        id,
+        title: g?.title || id,
+        banner: g ? this.mediaUrl(g.media?.banner) : '',
+        version: rec.version,
+        build: rec.build,
+        installedAt: rec.installedAt,
+        sizeBytes: await dirSize(this.gameFolder(id)),
+        mine: this.isMine(rec),
+        otherAccounts: owners.filter((o) => o !== this.uid).length,
+        running: this.running.has(id),
+        busy: this.busy.has(id),
+      });
+    }
+    let freeBytes = null;
+    try { const st = fs.statfsSync(this.gamesDir); freeBytes = st.bavail * st.bsize; } catch {}
+    return { games: out.sort((a, b) => a.title.localeCompare(b.title)), freeBytes, folder: this.gamesDir };
   }
 
   // Installed games whose version is older than the store's.
@@ -340,7 +418,7 @@ class GameManager {
   // ---------- play ----------
   launch(id, onExit = () => {}, extraArgs = []) {
     const inst = this.getInstalled()[id];
-    if (!inst) throw new Error('Game is not installed');
+    if (!inst || !this.isMine(inst)) throw new Error('Game is not installed');
     const game = this.findGame(id);
     const dir = this.gameFolder(id);
     const exe = path.join(dir, inst.executable);
@@ -416,6 +494,18 @@ class GameManager {
 }
 
 // ---------- helpers ----------
+async function dirSize(dir) {
+  let total = 0;
+  let entries = [];
+  try { entries = await fsp.readdir(dir, { withFileTypes: true }); } catch { return 0; }
+  for (const e of entries) {
+    const p = path.join(dir, e.name);
+    if (e.isDirectory()) total += await dirSize(p);
+    else if (e.isFile()) { try { total += (await fsp.stat(p)).size; } catch {} }
+  }
+  return total;
+}
+
 // Older catalogs had download fields on the game itself; treat those as the "standard" build.
 function normalizeCatalog(cat) {
   for (const g of cat.games || []) {
