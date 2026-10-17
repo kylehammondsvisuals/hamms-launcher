@@ -1,0 +1,76 @@
+{
+  "id": "sweetfang",
+  "title": "Sweetfang",
+  "publisher": "HAMMS Studios",
+  "partner": false,
+  "status": "coming-soon",
+  "featured": true,
+  "order": 1,
+  "type": "download",
+  "tagline": "Sweet on the outside.",
+  "description": "Mochi is the sweetest little creature in the Meadow, until the Sour Meter fills. A hand-crafted side-scrolling adventure across 18 lands where every cute moment has a dark side. Fill the meter, unleash Fang, and fight your way to the heart of the Hollow.",
+  "features": [
+    "18 hand-crafted lands across two acts",
+    "Transform into Fang when the Sour Meter fills",
+    "Seven unforgettable characters and two endings",
+    "Play on keyboard, PlayStation or Xbox controller"
+  ],
+  "genres": [
+    "Platformer",
+    "Metroidvania",
+    "Adventure"
+  ],
+  "engine": "Godot 4",
+  "players": "1 player",
+  "media": {
+    "cover": "cover.jpg",
+    "banner": "banner.jpg",
+    "logo": "logo.png",
+    "logoInBanner": false,
+    "screenshots": [
+      "banner.jpg",
+      "screenshot-1.jpg",
+      "screenshot-2.jpg",
+      "screenshot-3.jpg",
+      "screenshot-4.jpg",
+      "screenshot-5.jpg",
+      "screenshot-6.jpg",
+      "screenshot-7.jpg",
+      "screenshot-8.jpg"
+    ],
+    "trailer": "trailer.mp4",
+    "trailerPoster": "trailer-poster.jpg",
+    "hero": "hero.jpg"
+  },
+  "requirements": {
+    "minimum": {
+      "os": "Windows 10 64-bit",
+      "cpu": "Intel Core i3 / AMD Ryzen 3",
+      "ram": "4 GB",
+      "gpu": "Intel HD 620 / any integrated graphics",
+      "storage": "2 GB",
+      "check": {
+        "ramGB": 4,
+        "cores": 2,
+        "dedicatedGPU": false
+      }
+    },
+    "recommended": {
+      "os": "Windows 10/11 64-bit",
+      "cpu": "Intel Core i5 / AMD Ryzen 5",
+      "ram": "8 GB",
+      "gpu": "NVIDIA GTX 1050 / AMD RX 560",
+      "storage": "2 GB",
+      "check": {
+        "ramGB": 8,
+        "cores": 4,
+        "dedicatedGPU": true
+      }
+    }
+  },
+  "executable": "Sweetfang.exe",
+  "shaderCacheDirs": [
+    "{appdata}/Godot/app_userdata/Sweetfang/shader_cache"
+  ],
+  "liteExecutable": "Sweetfang_Lite.exe"
+}

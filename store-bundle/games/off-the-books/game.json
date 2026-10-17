@@ -1,0 +1,66 @@
+{
+  "id": "off-the-books",
+  "title": "Off The Books",
+  "publisher": "HAMMS Studios",
+  "partner": false,
+  "status": "coming-soon",
+  "featured": false,
+  "order": 4,
+  "type": "download",
+  "tagline": "No record. No backup.",
+  "description": "Two rogue operators abandoned their mission and now only one thing matters: the cash. A realistic, moonlit 1v1 extraction shooter with fast time-to-kill, real ballistics, a DMZ-style stash and five night maps from Lantern Village to the Rainy Lake Cabins.",
+  "features": [
+    "Realistic ballistics and fast time-to-kill",
+    "Stash, loadouts and traders like the best extraction shooters",
+    "Five night-time maps with fog, rain and moonlight",
+    "Online 1v1 matchmaking with friends and parties"
+  ],
+  "genres": [
+    "Tactical Shooter",
+    "Extraction",
+    "Multiplayer"
+  ],
+  "engine": "Godot 4",
+  "players": "1v1 online",
+  "media": {
+    "cover": "cover.jpg",
+    "banner": "banner.jpg",
+    "logo": "logo.png",
+    "screenshots": [
+      "banner.jpg",
+      "screenshot-1.jpg",
+      "screenshot-2.jpg"
+    ],
+    "trailer": ""
+  },
+  "requirements": {
+    "minimum": {
+      "os": "Windows 10 64-bit",
+      "cpu": "Intel Core i5-8400 / AMD Ryzen 5 2600",
+      "ram": "8 GB",
+      "gpu": "NVIDIA GTX 1060 / AMD RX 580 (6 GB)",
+      "storage": "15 GB",
+      "check": {
+        "ramGB": 8,
+        "cores": 6,
+        "dedicatedGPU": true
+      }
+    },
+    "recommended": {
+      "os": "Windows 10/11 64-bit",
+      "cpu": "Intel Core i7-9700K / AMD Ryzen 7 3700X",
+      "ram": "16 GB",
+      "gpu": "NVIDIA RTX 2060 / AMD RX 6600 (8 GB)",
+      "storage": "15 GB SSD",
+      "check": {
+        "ramGB": 16,
+        "cores": 8,
+        "dedicatedGPU": true
+      }
+    }
+  },
+  "executable": "OffTheBooks.exe",
+  "shaderCacheDirs": [
+    "{appdata}/Godot/app_userdata/Off The Books/shader_cache"
+  ]
+}

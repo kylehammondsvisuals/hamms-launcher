@@ -1,0 +1,7 @@
+{
+  "catalogUrl": "https://raw.githubusercontent.com/kylehammondsvisuals/hamms-games/main/catalog.json",
+  "accounts": {
+    "supabaseUrl": "https://jkmaitclezeidazimlzr.supabase.co",
+    "supabaseAnonKey": "sb_publishable_CleDFeXtBUCG4jXzSwWF9Q_mbm-6KKu"
+  }
+}

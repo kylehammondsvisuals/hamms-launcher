@@ -1,0 +1,61 @@
+{
+  "id": "dash-pack",
+  "title": "Dash Pack",
+  "publisher": "HAMMS Studios",
+  "partner": false,
+  "status": "coming-soon",
+  "featured": false,
+  "order": 8,
+  "type": "web",
+  "tagline": "Four racers. One finish line.",
+  "description": "Chaotic, colorful racing for up to four friends. Grab power-ups, trip up your rivals and dash to the finish.",
+  "features": [
+    "Up to four players online",
+    "Power-ups and traps",
+    "Quick matches for any device"
+  ],
+  "genres": [
+    "Racing",
+    "Party"
+  ],
+  "engine": "Browser",
+  "players": "Up to 4 players",
+  "media": {
+    "cover": "cover.jpg",
+    "banner": "banner.jpg",
+    "logo": "logo.png",
+    "screenshots": [
+      "banner.jpg",
+      "screenshot-1.jpg",
+      "screenshot-2.jpg"
+    ],
+    "trailer": ""
+  },
+  "requirements": {
+    "minimum": {
+      "os": "Windows 10",
+      "cpu": "Any dual-core",
+      "ram": "4 GB",
+      "gpu": "Any integrated graphics",
+      "storage": "None (plays online)",
+      "check": {
+        "ramGB": 4,
+        "cores": 2,
+        "dedicatedGPU": false
+      }
+    },
+    "recommended": {
+      "os": "Windows 10/11",
+      "cpu": "Any quad-core",
+      "ram": "8 GB",
+      "gpu": "Any integrated graphics",
+      "storage": "None (plays online)",
+      "check": {
+        "ramGB": 8,
+        "cores": 4,
+        "dedicatedGPU": false
+      }
+    }
+  },
+  "playUrl": ""
+}

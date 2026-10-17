@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; img-src 'self' https: file: data:; media-src https: file:; font-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; frame-src https://www.youtube-nocookie.com" />
+  <title>HAMMS Studios</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Studio ident: same beats as the in-game HAMMS intro -->
+  <div id="intro" class="intro">
+    <canvas id="embers"></canvas>
+    <div class="intro-stack">
+      <div class="intro-emblem-wrap">
+        <img src="brand/hamms-emblem.png" class="intro-emblem" alt="" />
+        <div class="intro-sweep"></div>
+      </div>
+      <div class="intro-word">H A M M S</div>
+      <div class="intro-rule"></div>
+      <div class="intro-sub">S T U D I O S</div>
+    </div>
+  </div>
+
+  <!-- HAMMS account gate: nothing past this until you're signed in -->
+  <div id="auth" class="auth hidden">
+    <div class="auth-bg"></div>
+    <div class="auth-card">
+      <img class="auth-logo" src="brand/hamms-logo.png" alt="HAMMS Studios" />
+      <div id="auth-launch-note" class="auth-note hidden"></div>
+      <div class="auth-tabs">
+        <button class="auth-tab on" data-auth-tab="in">Sign in</button>
+        <button class="auth-tab" data-auth-tab="up">Create account</button>
+      </div>
+      <form id="auth-form" autocomplete="on" novalidate>
+        <label class="field up-only hidden"><span>HAMMS name</span>
+          <input id="f-name" name="username" maxlength="16" autocomplete="nickname" placeholder="Shows up in every HAMMS game" />
+          <small id="name-hint" class="hint">3–16 letters, numbers or _</small>
+        </label>
+        <label class="field"><span>Email</span><input id="f-email" name="email" type="email" autocomplete="email" /></label>
+        <label class="field"><span>Password</span><input id="f-pass" name="password" type="password" autocomplete="current-password" /></label>
+        <div id="auth-error" class="auth-error hidden"></div>
+        <div id="auth-info" class="auth-info hidden"></div>
+        <button type="submit" id="auth-submit" class="btn play wide">Sign in</button>
+        <button type="button" id="auth-forgot" class="link-btn in-only">Forgot password?</button>
+      </form>
+      <div id="auth-off" class="auth-info hidden">HAMMS accounts are being set up. Check back soon.</div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <div class="brand" data-nav="store">
+      <img src="brand/hamms-emblem.png" alt="" />
+      <div class="brand-text"><span>HAMMS</span><small>STUDIOS</small></div>
+    </div>
+    <nav class="tabs">
+      <button class="tab active" data-nav="store">Store</button>
+      <button class="tab" data-nav="library">Library <span id="lib-count" class="count"></span></button>
+    </nav>
+    <div class="top-right">
+      <div id="dl-chip" class="dl-chip hidden"></div>
+      <button id="pc-chip" class="pc-chip" title="Your PC"></button>
+      <button id="me-chip" class="me-chip hidden" title="Your HAMMS account"><span class="me-ava"></span><b class="me-name"></b></button>
+      <button id="settings-btn" class="icon-btn" title="Settings" aria-label="Settings">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 15.5A3.5 3.5 0 1 1 12 8.5a3.5 3.5 0 0 1 0 7Zm7.4-2.5.1-1-.1-1 2.1-1.6-2-3.5-2.5 1a7.5 7.5 0 0 0-1.7-1L15 2h-4l-.4 2.9a7.5 7.5 0 0 0-1.7 1l-2.5-1-2 3.5L6.6 11l-.1 1 .1 1-2.1 1.6 2 3.5 2.5-1c.5.4 1.1.7 1.7 1L11 22h4l.4-2.9c.6-.3 1.2-.6 1.7-1l2.5 1 2-3.5-2.2-1.6Z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <div id="update-bar" class="update-bar hidden">
+    <span id="update-text"></span>
+    <button id="update-restart" class="btn small hidden">Restart now</button>
+  </div>
+
+  <main id="view" class="view"></main>
+
+  <div id="settings" class="drawer hidden">
+    <div class="drawer-card">
+      <div class="drawer-head"><h3>Settings</h3><button class="icon-btn" data-close aria-label="Close">✕</button></div>
+      <div class="acct-box"><div><small>Signed in as</small><b id="acct-name">—</b><span id="acct-email"></span></div><button id="sign-out" class="btn ghost small">Sign out</button></div>
+      <label class="toggle"><input type="checkbox" id="auto-update" /><span class="track"><span class="knob"></span></span>
+        <div><b>Auto-update games</b><small>Download game updates in the background as soon as they're out.</small></div></label>
+      <button id="check" class="btn ghost">Check for updates now</button>
+      <div class="drawer-meta" id="drawer-meta"></div>
+    </div>
+  </div>
+
+  <div id="lightbox" class="lightbox hidden">
+    <button class="lb-nav prev" aria-label="Previous">‹</button>
+    <img id="lb-img" alt="" />
+    <video id="lb-video" class="hidden" controls playsinline></video>
+    <button class="lb-nav next" aria-label="Next">›</button>
+    <button class="lb-close" aria-label="Close">✕</button>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+  <script src="app.js"></script>
+</body>
+</html>

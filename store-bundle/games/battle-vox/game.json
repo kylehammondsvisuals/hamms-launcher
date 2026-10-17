@@ -1,0 +1,62 @@
+{
+  "id": "battle-vox",
+  "title": "Battle Vox",
+  "publisher": "HAMMS Studios",
+  "partner": false,
+  "status": "coming-soon",
+  "featured": false,
+  "order": 5,
+  "type": "download",
+  "tagline": "Snappy guns. Slide cancels. No mercy.",
+  "description": "An arcade first-person shooter with that classic three-lane feel: snappy gunplay, CoD-style movement and slide cancels, buildings that come apart, cars that blow up, and tracers you can follow back to whoever just sniped you.",
+  "features": [
+    "Fast, snappy gunplay with slide cancel and mantling",
+    "Destructible buildings, explosive vehicles, grenades and rockets",
+    "Classic three-lane map design",
+    "PlayStation and Tactical button layouts"
+  ],
+  "genres": [
+    "Arcade FPS",
+    "Multiplayer"
+  ],
+  "engine": "Godot 4",
+  "players": "Online multiplayer",
+  "media": {
+    "cover": "cover.jpg",
+    "banner": "banner.jpg",
+    "logo": "logo.png",
+    "screenshots": [
+      "banner.jpg",
+      "screenshot-1.jpg",
+      "screenshot-2.jpg"
+    ],
+    "trailer": ""
+  },
+  "requirements": {
+    "minimum": {
+      "os": "Windows 10 64-bit",
+      "cpu": "Intel Core i5-6500 / AMD Ryzen 3 1300X",
+      "ram": "8 GB",
+      "gpu": "NVIDIA GTX 960 / AMD RX 470 (4 GB)",
+      "storage": "6 GB",
+      "check": {
+        "ramGB": 8,
+        "cores": 4,
+        "dedicatedGPU": true
+      }
+    },
+    "recommended": {
+      "os": "Windows 10/11 64-bit",
+      "cpu": "Intel Core i5-9600K / AMD Ryzen 5 3600",
+      "ram": "16 GB",
+      "gpu": "NVIDIA GTX 1660 / AMD RX 5600 XT (6 GB)",
+      "storage": "6 GB SSD",
+      "check": {
+        "ramGB": 16,
+        "cores": 6,
+        "dedicatedGPU": true
+      }
+    }
+  },
+  "executable": "BattleVox.exe"
+}

@@ -1,0 +1,725 @@
+{
+  "studio": "HAMMS Studios",
+  "schema": 2,
+  "generatedAt": "2026-10-15T17:37:34.748Z",
+  "games": [
+    {
+      "id": "sweetfang",
+      "title": "Sweetfang",
+      "publisher": "HAMMS Studios",
+      "partner": false,
+      "status": "released",
+      "featured": true,
+      "order": 1,
+      "type": "download",
+      "tagline": "Sweet on the outside.",
+      "description": "Mochi is the sweetest little creature in the Meadow, until the Sour Meter fills. A hand-crafted side-scrolling adventure across 18 lands where every cute moment has a dark side. Fill the meter, unleash Fang, and fight your way to the heart of the Hollow.",
+      "features": [
+        "18 hand-crafted lands across two acts",
+        "Transform into Fang when the Sour Meter fills",
+        "Seven unforgettable characters and two endings",
+        "Play on keyboard, PlayStation or Xbox controller"
+      ],
+      "genres": [
+        "Platformer",
+        "Metroidvania",
+        "Adventure"
+      ],
+      "engine": "Godot 4",
+      "players": "1 player",
+      "media": {
+        "cover": "games/sweetfang/cover.jpg",
+        "banner": "games/sweetfang/banner.jpg",
+        "logo": "games/sweetfang/logo.png",
+        "logoInBanner": false,
+        "screenshots": [
+          "games/sweetfang/banner.jpg",
+          "games/sweetfang/screenshot-1.jpg",
+          "games/sweetfang/screenshot-2.jpg",
+          "games/sweetfang/screenshot-3.jpg",
+          "games/sweetfang/screenshot-4.jpg",
+          "games/sweetfang/screenshot-5.jpg",
+          "games/sweetfang/screenshot-6.jpg",
+          "games/sweetfang/screenshot-7.jpg",
+          "games/sweetfang/screenshot-8.jpg"
+        ],
+        "trailer": "games/sweetfang/trailer.mp4",
+        "trailerPoster": "games/sweetfang/trailer-poster.jpg",
+        "hero": "games/sweetfang/hero.jpg"
+      },
+      "requirements": {
+        "minimum": {
+          "os": "Windows 10 64-bit",
+          "cpu": "Intel Core i3 / AMD Ryzen 3",
+          "ram": "4 GB",
+          "gpu": "Intel HD 620 / any integrated graphics",
+          "storage": "2 GB",
+          "check": {
+            "ramGB": 4,
+            "cores": 2,
+            "dedicatedGPU": false
+          }
+        },
+        "recommended": {
+          "os": "Windows 10/11 64-bit",
+          "cpu": "Intel Core i5 / AMD Ryzen 5",
+          "ram": "8 GB",
+          "gpu": "NVIDIA GTX 1050 / AMD RX 560",
+          "storage": "2 GB",
+          "check": {
+            "ramGB": 8,
+            "cores": 4,
+            "dedicatedGPU": true
+          }
+        }
+      },
+      "executable": "Sweetfang.exe",
+      "shaderCacheDirs": [
+        "{appdata}/Godot/app_userdata/Sweetfang/shader_cache"
+      ],
+      "liteExecutable": "Sweetfang_Lite.exe",
+      "builds": {
+        "standard": {
+          "label": "High",
+          "version": "1.14.0",
+          "downloadUrl": "https://github.com/kylehammondsvisuals/hamms-games/releases/download/sweetfang-v1.14.0/Sweetfang.exe",
+          "sha256": "03cc33bdb1fee3a6c155c501c9a4bdffb64f119d6f875b366861cd1ab6914eeb",
+          "size": 319660072,
+          "executable": "Sweetfang.exe",
+          "launchArgs": [],
+          "released": "2026-10-15",
+          "patchNotes": [
+            {
+              "version": "1.14.0",
+              "date": "2026-10-15",
+              "changes": [
+                "Fixed dialogue loops",
+                "New boss lairs",
+                "Ember Oil",
+                "Wardrobe: dress up Mochi",
+                "Bug fixes and polish"
+              ]
+            }
+          ]
+        },
+        "lite": {
+          "label": "Low Spec",
+          "version": "1.14.0",
+          "downloadUrl": "https://github.com/kylehammondsvisuals/hamms-games/releases/download/sweetfang-lite-v1.14.0/Sweetfang_Lite.exe",
+          "sha256": "23ff29b09344ca12ed9f57e5f4d98009310100fc89c58ff73ed744e04d0179cc",
+          "size": 319660104,
+          "executable": "Sweetfang_Lite.exe",
+          "launchArgs": [],
+          "released": "2026-10-15",
+          "patchNotes": [
+            {
+              "version": "1.14.0",
+              "date": "2026-10-15",
+              "changes": [
+                "Low Spec build for older PCs and laptops",
+                "Fixed dialogue loops",
+                "New boss lairs",
+                "Ember Oil",
+                "Wardrobe: dress up Mochi"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "brick-workshop",
+      "title": "Brick Workshop",
+      "publisher": "HAMMS Studios",
+      "partner": false,
+      "status": "released",
+      "featured": true,
+      "order": 2,
+      "type": "download",
+      "tagline": "Build it brick by brick.",
+      "description": "Shrink down into a massive workshop and build legendary models one brick at a time. Pick up, rotate and snap every piece by hand, and follow the giant instruction map when you need a hint. First build: the Space Shuttle.",
+      "features": [
+        "Third-person building in a giant workshop",
+        "Instruction map that follows your progress",
+        "Your first build: the Space Shuttle"
+      ],
+      "genres": [
+        "Building",
+        "Creative",
+        "Relaxing"
+      ],
+      "engine": "Godot 4",
+      "players": "1 player",
+      "media": {
+        "cover": "games/brick-workshop/cover.jpg",
+        "banner": "games/brick-workshop/banner.jpg",
+        "logo": "games/brick-workshop/logo.png",
+        "screenshots": [
+          "games/brick-workshop/banner.jpg",
+          "games/brick-workshop/screenshot-1.jpg",
+          "games/brick-workshop/screenshot-2.jpg"
+        ],
+        "trailer": ""
+      },
+      "requirements": {
+        "minimum": {
+          "os": "Windows 10 64-bit",
+          "cpu": "Intel Core i3 / AMD Ryzen 3",
+          "ram": "4 GB",
+          "gpu": "Intel HD 620 / any integrated graphics",
+          "storage": "2 GB",
+          "check": {
+            "ramGB": 4,
+            "cores": 2,
+            "dedicatedGPU": false
+          }
+        },
+        "recommended": {
+          "os": "Windows 10/11 64-bit",
+          "cpu": "Intel Core i5 / AMD Ryzen 5",
+          "ram": "8 GB",
+          "gpu": "NVIDIA GTX 1050 / AMD RX 560",
+          "storage": "2 GB",
+          "check": {
+            "ramGB": 8,
+            "cores": 4,
+            "dedicatedGPU": true
+          }
+        }
+      },
+      "executable": "BrickWorkshop.exe",
+      "launchArgs": [
+        "--disable-features=ImmersiveReadAnything"
+      ],
+      "builds": {
+        "standard": {
+          "label": "High",
+          "version": "0.3.1",
+          "downloadUrl": "https://github.com/kylehammondsvisuals/hamms-games/releases/download/brick-workshop-v0.3.1/brick-workshop-0.3.1.zip",
+          "sha256": "b5372ed5253d234da831f5c282f249376aefa42c72bc4d88df548414a972c280",
+          "size": 261913346,
+          "executable": "BrickWorkshop.exe",
+          "launchArgs": [
+            "--disable-features=ImmersiveReadAnything"
+          ],
+          "released": "2026-10-15",
+          "patchNotes": [
+            {
+              "version": "0.3.1",
+              "date": "2026-10-15",
+              "changes": [
+                "Bug fixes and improvements"
+              ]
+            },
+            {
+              "version": "0.3.0",
+              "date": "2026-10-15",
+              "changes": [
+                "First release on the HAMMS Studios launcher",
+                "Signs in with your HAMMS account and fills in your HAMMS name"
+              ]
+            }
+          ]
+        },
+        "lite": {
+          "label": "Low Spec",
+          "version": "0.3.1",
+          "downloadUrl": "https://github.com/kylehammondsvisuals/hamms-games/releases/download/brick-workshop-lite-v0.3.1/brick-workshop-lite-0.3.1.zip",
+          "sha256": "db51faaf21ef3bf7a2b2361b15bd63d3b625f65b57afd8719477f26d23b23653",
+          "size": 261913370,
+          "executable": "BrickWorkshop.exe",
+          "launchArgs": [
+            "--disable-features=ImmersiveReadAnything"
+          ],
+          "released": "2026-10-15",
+          "patchNotes": [
+            {
+              "version": "0.3.1",
+              "date": "2026-10-15",
+              "changes": [
+                "Low Spec build for older PCs and laptops",
+                "Bug fixes and improvements"
+              ]
+            },
+            {
+              "version": "0.3.0",
+              "date": "2026-10-15",
+              "changes": [
+                "Low Spec build for older PCs and laptops",
+                "Signs in with your HAMMS account and fills in your HAMMS name"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "glint",
+      "title": "Glint",
+      "publisher": "HAMMS Studios",
+      "partner": false,
+      "status": "released",
+      "featured": true,
+      "order": 3,
+      "type": "download",
+      "tagline": "One shot. One winner.",
+      "description": "A third-person 1v1 sniper duel. Find cover that crumbles under fire, watch for the glint, and make every shot count, because reloads punish misses. Add friends, party up and play online, or jump into Quick Match.",
+      "features": [
+        "Third-person to scope-in sniping with 9x / 18x zoom",
+        "Destructible cover",
+        "Online 1v1 with friends, parties and Quick Match",
+        "PlayStation controller or mouse and keyboard"
+      ],
+      "genres": [
+        "Sniper",
+        "Duel"
+      ],
+      "engine": "Godot 4",
+      "players": "1v1 online",
+      "media": {
+        "cover": "games/glint/cover.jpg",
+        "banner": "games/glint/banner.jpg",
+        "logo": "games/glint/logo.png",
+        "screenshots": [
+          "games/glint/banner.jpg",
+          "games/glint/screenshot-1.jpg",
+          "games/glint/screenshot-2.jpg"
+        ],
+        "trailer": ""
+      },
+      "requirements": {
+        "minimum": {
+          "os": "Windows 10 64-bit",
+          "cpu": "Intel Core i3 / AMD Ryzen 3",
+          "ram": "8 GB",
+          "gpu": "Intel UHD 620 / any integrated graphics",
+          "storage": "3 GB",
+          "check": {
+            "ramGB": 8,
+            "cores": 4,
+            "dedicatedGPU": false
+          }
+        },
+        "recommended": {
+          "os": "Windows 10/11 64-bit",
+          "cpu": "Intel Core i5 / AMD Ryzen 5",
+          "ram": "16 GB",
+          "gpu": "NVIDIA GTX 1060 / AMD RX 580",
+          "storage": "3 GB",
+          "check": {
+            "ramGB": 16,
+            "cores": 6,
+            "dedicatedGPU": true
+          }
+        }
+      },
+      "executable": "GLINT.exe",
+      "shaderCacheDirs": [
+        "{appdata}/Godot/app_userdata/Glint/shader_cache"
+      ],
+      "liteLaunchArgs": [
+        "--rendering-driver",
+        "opengl3",
+        "--rendering-method",
+        "gl_compatibility"
+      ],
+      "builds": {
+        "standard": {
+          "label": "High",
+          "version": "1.0.2",
+          "downloadUrl": "https://github.com/kylehammondsvisuals/hamms-games/releases/download/glint-v1.0.2/glint-1.0.2.zip",
+          "sha256": "7d2c5064e242ade4cacd2014995ff113f73a5997b82beeb6daec9ff318dd6f80",
+          "size": 70047676,
+          "executable": "GLINT.exe",
+          "launchArgs": [],
+          "released": "2026-10-15",
+          "patchNotes": [
+            {
+              "version": "1.0.2",
+              "date": "2026-10-15",
+              "changes": [
+                "New HAMMS Studios intro, credits now say A HAMMS STUDIOS GAME",
+                "Active reload: hit RB / R in the blue zone for an instant reload and a power round (1.85x damage, one body shot kills)",
+                "Reload bar moved to the lower middle of the screen",
+                "Three scope zoom levels with smooth zoom (D-pad up/down or mouse wheel)",
+                "Smooth shoulder swap",
+                "Enemy names removed",
+                "Smaller scope glint",
+                "New side lighting and character rim light, both islands lit the same",
+                "Fixed ground and flat surfaces rendering nearly black",
+                "Opens through the HAMMS launcher; your HAMMS name is your gamertag"
+              ]
+            },
+            {
+              "version": "1.0.1",
+              "date": "2026-10-15",
+              "changes": [
+                "Glint rebuilt in Godot as a full download",
+                "1v1 third-person sniper duels"
+              ]
+            }
+          ]
+        },
+        "lite": {
+          "label": "Low Spec",
+          "version": "1.0.2",
+          "downloadUrl": "https://github.com/kylehammondsvisuals/hamms-games/releases/download/glint-lite-v1.0.2/glint-lite-1.0.2.zip",
+          "sha256": "796c0a76971351ff6fc03881ceda74b2aea162011f614996607f2425f8d36e85",
+          "size": 70047695,
+          "executable": "GLINT.exe",
+          "launchArgs": [
+            "--rendering-driver",
+            "opengl3",
+            "--rendering-method",
+            "gl_compatibility"
+          ],
+          "released": "2026-10-15",
+          "patchNotes": [
+            {
+              "version": "1.0.2",
+              "date": "2026-10-15",
+              "changes": [
+                "Low Spec build for older PCs and laptops",
+                "New HAMMS Studios intro, credits now say A HAMMS STUDIOS GAME",
+                "Active reload: hit RB / R in the blue zone for an instant reload and a power round (1.85x damage, one body shot kills)",
+                "Reload bar moved to the lower middle of the screen",
+                "Three scope zoom levels with smooth zoom (D-pad up/down or mouse wheel)",
+                "Smooth shoulder swap",
+                "Enemy names removed",
+                "Smaller scope glint",
+                "New side lighting and character rim light, both islands lit the same",
+                "Fixed ground and flat surfaces rendering nearly black",
+                "Opens through the HAMMS launcher; your HAMMS name is your gamertag"
+              ]
+            },
+            {
+              "version": "1.0.1",
+              "date": "2026-10-15",
+              "changes": [
+                "Low Spec build for older PCs and laptops",
+                "1v1 third-person sniper duels"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "off-the-books",
+      "title": "Off The Books",
+      "publisher": "HAMMS Studios",
+      "partner": false,
+      "status": "coming-soon",
+      "featured": false,
+      "order": 4,
+      "type": "download",
+      "tagline": "No record. No backup.",
+      "description": "Two rogue operators abandoned their mission and now only one thing matters: the cash. A realistic, moonlit 1v1 extraction shooter with fast time-to-kill, real ballistics, a DMZ-style stash and five night maps from Lantern Village to the Rainy Lake Cabins.",
+      "features": [
+        "Realistic ballistics and fast time-to-kill",
+        "Stash, loadouts and traders like the best extraction shooters",
+        "Five night-time maps with fog, rain and moonlight",
+        "Online 1v1 matchmaking with friends and parties"
+      ],
+      "genres": [
+        "Tactical Shooter",
+        "Extraction",
+        "Multiplayer"
+      ],
+      "engine": "Godot 4",
+      "players": "1v1 online",
+      "media": {
+        "cover": "games/off-the-books/cover.jpg",
+        "banner": "games/off-the-books/banner.jpg",
+        "logo": "games/off-the-books/logo.png",
+        "screenshots": [
+          "games/off-the-books/banner.jpg",
+          "games/off-the-books/screenshot-1.jpg",
+          "games/off-the-books/screenshot-2.jpg"
+        ],
+        "trailer": ""
+      },
+      "requirements": {
+        "minimum": {
+          "os": "Windows 10 64-bit",
+          "cpu": "Intel Core i5-8400 / AMD Ryzen 5 2600",
+          "ram": "8 GB",
+          "gpu": "NVIDIA GTX 1060 / AMD RX 580 (6 GB)",
+          "storage": "15 GB",
+          "check": {
+            "ramGB": 8,
+            "cores": 6,
+            "dedicatedGPU": true
+          }
+        },
+        "recommended": {
+          "os": "Windows 10/11 64-bit",
+          "cpu": "Intel Core i7-9700K / AMD Ryzen 7 3700X",
+          "ram": "16 GB",
+          "gpu": "NVIDIA RTX 2060 / AMD RX 6600 (8 GB)",
+          "storage": "15 GB SSD",
+          "check": {
+            "ramGB": 16,
+            "cores": 8,
+            "dedicatedGPU": true
+          }
+        }
+      },
+      "executable": "OffTheBooks.exe",
+      "shaderCacheDirs": [
+        "{appdata}/Godot/app_userdata/Off The Books/shader_cache"
+      ],
+      "builds": {}
+    },
+    {
+      "id": "battle-vox",
+      "title": "Battle Vox",
+      "publisher": "HAMMS Studios",
+      "partner": false,
+      "status": "coming-soon",
+      "featured": false,
+      "order": 5,
+      "type": "download",
+      "tagline": "Snappy guns. Slide cancels. No mercy.",
+      "description": "An arcade first-person shooter with that classic three-lane feel: snappy gunplay, CoD-style movement and slide cancels, buildings that come apart, cars that blow up, and tracers you can follow back to whoever just sniped you.",
+      "features": [
+        "Fast, snappy gunplay with slide cancel and mantling",
+        "Destructible buildings, explosive vehicles, grenades and rockets",
+        "Classic three-lane map design",
+        "PlayStation and Tactical button layouts"
+      ],
+      "genres": [
+        "Arcade FPS",
+        "Multiplayer"
+      ],
+      "engine": "Godot 4",
+      "players": "Online multiplayer",
+      "media": {
+        "cover": "games/battle-vox/cover.jpg",
+        "banner": "games/battle-vox/banner.jpg",
+        "logo": "games/battle-vox/logo.png",
+        "screenshots": [
+          "games/battle-vox/banner.jpg",
+          "games/battle-vox/screenshot-1.jpg",
+          "games/battle-vox/screenshot-2.jpg"
+        ],
+        "trailer": ""
+      },
+      "requirements": {
+        "minimum": {
+          "os": "Windows 10 64-bit",
+          "cpu": "Intel Core i5-6500 / AMD Ryzen 3 1300X",
+          "ram": "8 GB",
+          "gpu": "NVIDIA GTX 960 / AMD RX 470 (4 GB)",
+          "storage": "6 GB",
+          "check": {
+            "ramGB": 8,
+            "cores": 4,
+            "dedicatedGPU": true
+          }
+        },
+        "recommended": {
+          "os": "Windows 10/11 64-bit",
+          "cpu": "Intel Core i5-9600K / AMD Ryzen 5 3600",
+          "ram": "16 GB",
+          "gpu": "NVIDIA GTX 1660 / AMD RX 5600 XT (6 GB)",
+          "storage": "6 GB SSD",
+          "check": {
+            "ramGB": 16,
+            "cores": 6,
+            "dedicatedGPU": true
+          }
+        }
+      },
+      "executable": "BattleVox.exe",
+      "builds": {}
+    },
+    {
+      "id": "wasteland",
+      "title": "Wasteland",
+      "publisher": "HAMMS Studios",
+      "partner": false,
+      "status": "coming-soon",
+      "featured": false,
+      "order": 6,
+      "type": "download",
+      "tagline": "Fury on the open road.",
+      "description": "A post-apocalyptic open world of burning highways, war rigs and dust storms. Built in Unreal Engine 5.",
+      "features": [
+        "Massive open-world desert to explore",
+        "War rigs, raider buggies and dust storms",
+        "Built in Unreal Engine 5"
+      ],
+      "genres": [
+        "Open World",
+        "Vehicular Combat",
+        "Survival"
+      ],
+      "engine": "Unreal Engine 5",
+      "players": "1 player",
+      "media": {
+        "cover": "games/wasteland/cover.jpg",
+        "banner": "games/wasteland/banner.jpg",
+        "logo": "games/wasteland/logo.png",
+        "screenshots": [
+          "games/wasteland/banner.jpg",
+          "games/wasteland/screenshot-1.jpg",
+          "games/wasteland/screenshot-2.jpg"
+        ],
+        "trailer": ""
+      },
+      "requirements": {
+        "minimum": {
+          "os": "Windows 10 64-bit",
+          "cpu": "Intel Core i5-8400 / AMD Ryzen 5 2600",
+          "ram": "8 GB",
+          "gpu": "NVIDIA GTX 1060 / AMD RX 580 (6 GB)",
+          "storage": "15 GB",
+          "check": {
+            "ramGB": 8,
+            "cores": 6,
+            "dedicatedGPU": true
+          }
+        },
+        "recommended": {
+          "os": "Windows 10/11 64-bit",
+          "cpu": "Intel Core i7-9700K / AMD Ryzen 7 3700X",
+          "ram": "16 GB",
+          "gpu": "NVIDIA RTX 2060 / AMD RX 6600 (8 GB)",
+          "storage": "15 GB SSD",
+          "check": {
+            "ramGB": 16,
+            "cores": 8,
+            "dedicatedGPU": true
+          }
+        }
+      },
+      "executable": "Wasteland.exe",
+      "builds": {}
+    },
+    {
+      "id": "bit-bash-2026",
+      "title": "Bit-Bash 2026",
+      "publisher": "HAMMS Studios",
+      "partner": false,
+      "status": "coming-soon",
+      "featured": false,
+      "order": 7,
+      "type": "web",
+      "tagline": "The 80s called. They want a rematch.",
+      "description": "A retro-cyberpunk platform fighter for up to three players with ten fighters, short hops, combos and directional influence. Knock your friends off the neon grid.",
+      "features": [
+        "Ten retro-cyberpunk fighters",
+        "Up to three players",
+        "Fully playable with a controller"
+      ],
+      "genres": [
+        "Platform Fighter",
+        "Party"
+      ],
+      "engine": "Browser",
+      "players": "Up to 3 players",
+      "media": {
+        "cover": "games/bit-bash-2026/cover.jpg",
+        "banner": "games/bit-bash-2026/banner.jpg",
+        "logo": "games/bit-bash-2026/logo.png",
+        "screenshots": [
+          "games/bit-bash-2026/banner.jpg",
+          "games/bit-bash-2026/screenshot-1.jpg",
+          "games/bit-bash-2026/screenshot-2.jpg"
+        ],
+        "trailer": ""
+      },
+      "requirements": {
+        "minimum": {
+          "os": "Windows 10",
+          "cpu": "Any dual-core",
+          "ram": "4 GB",
+          "gpu": "Any integrated graphics",
+          "storage": "None (plays online)",
+          "check": {
+            "ramGB": 4,
+            "cores": 2,
+            "dedicatedGPU": false
+          }
+        },
+        "recommended": {
+          "os": "Windows 10/11",
+          "cpu": "Any quad-core",
+          "ram": "8 GB",
+          "gpu": "Any integrated graphics",
+          "storage": "None (plays online)",
+          "check": {
+            "ramGB": 8,
+            "cores": 4,
+            "dedicatedGPU": false
+          }
+        }
+      },
+      "playUrl": "",
+      "builds": {}
+    },
+    {
+      "id": "dash-pack",
+      "title": "Dash Pack",
+      "publisher": "HAMMS Studios",
+      "partner": false,
+      "status": "coming-soon",
+      "featured": false,
+      "order": 8,
+      "type": "web",
+      "tagline": "Four racers. One finish line.",
+      "description": "Chaotic, colorful racing for up to four friends. Grab power-ups, trip up your rivals and dash to the finish.",
+      "features": [
+        "Up to four players online",
+        "Power-ups and traps",
+        "Quick matches for any device"
+      ],
+      "genres": [
+        "Racing",
+        "Party"
+      ],
+      "engine": "Browser",
+      "players": "Up to 4 players",
+      "media": {
+        "cover": "games/dash-pack/cover.jpg",
+        "banner": "games/dash-pack/banner.jpg",
+        "logo": "games/dash-pack/logo.png",
+        "screenshots": [
+          "games/dash-pack/banner.jpg",
+          "games/dash-pack/screenshot-1.jpg",
+          "games/dash-pack/screenshot-2.jpg"
+        ],
+        "trailer": ""
+      },
+      "requirements": {
+        "minimum": {
+          "os": "Windows 10",
+          "cpu": "Any dual-core",
+          "ram": "4 GB",
+          "gpu": "Any integrated graphics",
+          "storage": "None (plays online)",
+          "check": {
+            "ramGB": 4,
+            "cores": 2,
+            "dedicatedGPU": false
+          }
+        },
+        "recommended": {
+          "os": "Windows 10/11",
+          "cpu": "Any quad-core",
+          "ram": "8 GB",
+          "gpu": "Any integrated graphics",
+          "storage": "None (plays online)",
+          "check": {
+            "ramGB": 8,
+            "cores": 4,
+            "dedicatedGPU": false
+          }
+        }
+      },
+      "playUrl": "",
+      "builds": {}
+    }
+  ]
+}

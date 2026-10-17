@@ -1,0 +1,62 @@
+{
+  "id": "wasteland",
+  "title": "Wasteland",
+  "publisher": "HAMMS Studios",
+  "partner": false,
+  "status": "coming-soon",
+  "featured": false,
+  "order": 6,
+  "type": "download",
+  "tagline": "Fury on the open road.",
+  "description": "A post-apocalyptic open world of burning highways, war rigs and dust storms. Built in Unreal Engine 5.",
+  "features": [
+    "Massive open-world desert to explore",
+    "War rigs, raider buggies and dust storms",
+    "Built in Unreal Engine 5"
+  ],
+  "genres": [
+    "Open World",
+    "Vehicular Combat",
+    "Survival"
+  ],
+  "engine": "Unreal Engine 5",
+  "players": "1 player",
+  "media": {
+    "cover": "cover.jpg",
+    "banner": "banner.jpg",
+    "logo": "logo.png",
+    "screenshots": [
+      "banner.jpg",
+      "screenshot-1.jpg",
+      "screenshot-2.jpg"
+    ],
+    "trailer": ""
+  },
+  "requirements": {
+    "minimum": {
+      "os": "Windows 10 64-bit",
+      "cpu": "Intel Core i5-8400 / AMD Ryzen 5 2600",
+      "ram": "8 GB",
+      "gpu": "NVIDIA GTX 1060 / AMD RX 580 (6 GB)",
+      "storage": "15 GB",
+      "check": {
+        "ramGB": 8,
+        "cores": 6,
+        "dedicatedGPU": true
+      }
+    },
+    "recommended": {
+      "os": "Windows 10/11 64-bit",
+      "cpu": "Intel Core i7-9700K / AMD Ryzen 7 3700X",
+      "ram": "16 GB",
+      "gpu": "NVIDIA RTX 2060 / AMD RX 6600 (8 GB)",
+      "storage": "15 GB SSD",
+      "check": {
+        "ramGB": 16,
+        "cores": 8,
+        "dedicatedGPU": true
+      }
+    }
+  },
+  "executable": "Wasteland.exe"
+}

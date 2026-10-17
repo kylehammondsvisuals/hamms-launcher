@@ -1,0 +1,65 @@
+{
+  "id": "brick-workshop",
+  "title": "Brick Workshop",
+  "publisher": "HAMMS Studios",
+  "partner": false,
+  "status": "coming-soon",
+  "featured": true,
+  "order": 2,
+  "type": "download",
+  "tagline": "Build it brick by brick.",
+  "description": "Shrink down into a massive workshop and build legendary models one brick at a time. Pick up, rotate and snap every piece by hand, and follow the giant instruction map when you need a hint. First build: the Space Shuttle.",
+  "features": [
+    "Third-person building in a giant workshop",
+    "Instruction map that follows your progress",
+    "Your first build: the Space Shuttle"
+  ],
+  "genres": [
+    "Building",
+    "Creative",
+    "Relaxing"
+  ],
+  "engine": "Godot 4",
+  "players": "1 player",
+  "media": {
+    "cover": "cover.jpg",
+    "banner": "banner.jpg",
+    "logo": "logo.png",
+    "screenshots": [
+      "banner.jpg",
+      "screenshot-1.jpg",
+      "screenshot-2.jpg"
+    ],
+    "trailer": ""
+  },
+  "requirements": {
+    "minimum": {
+      "os": "Windows 10 64-bit",
+      "cpu": "Intel Core i3 / AMD Ryzen 3",
+      "ram": "4 GB",
+      "gpu": "Intel HD 620 / any integrated graphics",
+      "storage": "2 GB",
+      "check": {
+        "ramGB": 4,
+        "cores": 2,
+        "dedicatedGPU": false
+      }
+    },
+    "recommended": {
+      "os": "Windows 10/11 64-bit",
+      "cpu": "Intel Core i5 / AMD Ryzen 5",
+      "ram": "8 GB",
+      "gpu": "NVIDIA GTX 1050 / AMD RX 560",
+      "storage": "2 GB",
+      "check": {
+        "ramGB": 8,
+        "cores": 4,
+        "dedicatedGPU": true
+      }
+    }
+  },
+  "executable": "BrickWorkshop.exe",
+  "launchArgs": [
+    "--disable-features=ImmersiveReadAnything"
+  ]
+}

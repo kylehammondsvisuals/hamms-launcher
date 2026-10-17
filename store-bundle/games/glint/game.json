@@ -1,0 +1,71 @@
+{
+  "id": "glint",
+  "title": "Glint",
+  "publisher": "Pineapple Blue Productions",
+  "partner": false,
+  "status": "coming-soon",
+  "featured": true,
+  "order": 3,
+  "type": "download",
+  "tagline": "One shot. One winner.",
+  "description": "A third-person 1v1 sniper duel. Find cover that crumbles under fire, watch for the glint, and make every shot count, because reloads punish misses. Add friends, party up and play online, or jump into Quick Match.",
+  "features": [
+    "Third-person to scope-in sniping with 9x / 18x zoom",
+    "Destructible cover",
+    "Online 1v1 with friends, parties and Quick Match",
+    "PlayStation controller or mouse and keyboard"
+  ],
+  "genres": [
+    "Sniper",
+    "Duel"
+  ],
+  "engine": "Godot 4",
+  "players": "1v1 online",
+  "media": {
+    "cover": "cover.jpg",
+    "banner": "banner.jpg",
+    "logo": "logo.png",
+    "screenshots": [
+      "banner.jpg",
+      "screenshot-1.jpg",
+      "screenshot-2.jpg"
+    ],
+    "trailer": ""
+  },
+  "requirements": {
+    "minimum": {
+      "os": "Windows 10 64-bit",
+      "cpu": "Intel Core i3 / AMD Ryzen 3",
+      "ram": "8 GB",
+      "gpu": "Intel UHD 620 / any integrated graphics",
+      "storage": "3 GB",
+      "check": {
+        "ramGB": 8,
+        "cores": 4,
+        "dedicatedGPU": false
+      }
+    },
+    "recommended": {
+      "os": "Windows 10/11 64-bit",
+      "cpu": "Intel Core i5 / AMD Ryzen 5",
+      "ram": "16 GB",
+      "gpu": "NVIDIA GTX 1060 / AMD RX 580",
+      "storage": "3 GB",
+      "check": {
+        "ramGB": 16,
+        "cores": 6,
+        "dedicatedGPU": true
+      }
+    }
+  },
+  "executable": "GLINT.exe",
+  "shaderCacheDirs": [
+    "{appdata}/Godot/app_userdata/Glint/shader_cache"
+  ],
+  "liteLaunchArgs": [
+    "--rendering-driver",
+    "opengl3",
+    "--rendering-method",
+    "gl_compatibility"
+  ]
+}
