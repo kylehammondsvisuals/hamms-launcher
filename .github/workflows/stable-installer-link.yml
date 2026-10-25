@@ -1,0 +1,35 @@
+name: Stable installer link
+
+# Adds a copy of the installer named "HAMMS-Studios-Setup.exe" to each release,
+# so this link always downloads the newest launcher:
+# https://github.com/kylehammondsvisuals/hamms-launcher/releases/latest/download/HAMMS-Studios-Setup.exe
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag (leave blank for latest)"
+        required: false
+
+permissions:
+  contents: write
+
+jobs:
+  copy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add HAMMS-Studios-Setup.exe to release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          TAG: ${{ github.event.release.tag_name || inputs.tag }}
+        run: |
+          if [ -z "$TAG" ]; then TAG=$(gh release view -R "$REPO" --json tagName -q .tagName); fi
+          FILE=$(gh release view "$TAG" -R "$REPO" --json assets -q '.assets[].name' | grep -E '^HAMMS-Studios-Setup-.*\.exe$' | head -1)
+          if [ -z "$FILE" ]; then echo "No versioned installer found on $TAG"; exit 1; fi
+          gh release download "$TAG" -R "$REPO" -p "$FILE"
+          cp "$FILE" HAMMS-Studios-Setup.exe
+          gh release upload "$TAG" HAMMS-Studios-Setup.exe -R "$REPO" --clobber
+          echo "Added HAMMS-Studios-Setup.exe to $TAG"
