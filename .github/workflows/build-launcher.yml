@@ -24,7 +24,7 @@ jobs:
       - name: Build and publish the installer
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx electron-builder --win nsis --publish always -c.publish.releaseType=release
+        run: npx electron-builder --win nsis --publish always
       - name: Add the always-newest installer link
         shell: bash
         env:

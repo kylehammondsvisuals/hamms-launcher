@@ -32,6 +32,6 @@
       "shortcutName": "HAMMS Studios",
       "artifactName": "HAMMS-Studios-Setup-${version}.exe"
     },
-    "publish": [{ "provider": "github", "owner": "kylehammondsvisuals", "repo": "hamms-launcher" }]
+    "publish": [{ "provider": "github", "owner": "kylehammondsvisuals", "repo": "hamms-launcher", "releaseType": "release" }]
   }
 }
