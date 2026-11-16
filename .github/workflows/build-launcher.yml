@@ -1,0 +1,35 @@
+# Builds the Windows installer and publishes it as a launcher update.
+# Push a tag like v1.3.0 (matching "version" in package.json) and GitHub does the rest:
+# every installed launcher downloads the update by itself and asks for a restart.
+name: Build launcher
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install
+        run: npm install --no-audit --no-fund
+      - name: Build and publish the installer
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx electron-builder --win nsis --publish always -c.publish.releaseType=release
+      - name: Add the always-newest installer link
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VER=$(node -p "require('./package.json').version")
+          cp "dist/HAMMS-Studios-Setup-$VER.exe" HAMMS-Studios-Setup.exe
+          gh release upload "v$VER" HAMMS-Studios-Setup.exe -R "$GITHUB_REPOSITORY" --clobber

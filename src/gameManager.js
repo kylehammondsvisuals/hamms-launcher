@@ -221,13 +221,19 @@ class GameManager {
 
     try {
       onProgress({ phase: 'download', percent: 0, total: build.size || 0 });
-      const hash = await downloadFile(build.downloadUrl, zipPath, ac.signal, (done, total) => {
-        total = total || build.size || 0;
-        onProgress({ phase: 'download', percent: total ? Math.min(100, Math.round((done / total) * 100)) : null, done, total });
-      });
+      if (Array.isArray(build.parts) && build.parts.length) {
+        // Big games (over GitHub's 2 GB per file) ship as numbered pieces of one zip:
+        // each piece is downloaded, checked, and added to the end of the zip.
+        await downloadParts(build, zipPath, path.join(this.tmpDir, `${id}-${buildId}-${build.version}`), ac.signal, onProgress);
+      } else {
+        const hash = await downloadFile(build.downloadUrl, zipPath, ac.signal, (done, total) => {
+          total = total || build.size || 0;
+          onProgress({ phase: 'download', percent: total ? Math.min(100, Math.round((done / total) * 100)) : null, done, total });
+        });
 
-      if (build.sha256 && hash.toLowerCase() !== build.sha256.toLowerCase()) {
-        throw new Error('Download was corrupted (checksum mismatch). Try again.');
+        if (build.sha256 && hash.toLowerCase() !== build.sha256.toLowerCase()) {
+          throw new Error('Download was corrupted (checksum mismatch). Try again.');
+        }
       }
 
       onProgress({ phase: 'extract', percent: null });
@@ -550,6 +556,56 @@ async function downloadFile(url, dest, signal, onProgress) {
   if (signal?.aborted) throw new Error('cancelled');
   onProgress(done, total);
   return hash.digest('hex');
+}
+
+// Downloads build.parts one after another into zipPath. A piece already downloaded and checked
+// (from an earlier try that was cancelled or lost its connection) is kept, so a 6 GB download
+// picks up where it stopped instead of starting over.
+async function downloadParts(build, zipPath, partBase, signal, onProgress) {
+  const total = build.parts.reduce((n, p) => n + (p.size || 0), 0) || build.size || 0;
+  let before = 0;
+  const tell = (done) => onProgress({ phase: 'download', percent: total ? Math.min(100, Math.round(((before + done) / total) * 100)) : null, done: before + done, total });
+  const files = [];
+  for (let i = 0; i < build.parts.length; i++) {
+    const part = build.parts[i];
+    const file = `${partBase}.part${String(i + 1).padStart(3, '0')}`;
+    const okMark = `${file}.ok`;
+    let good = fs.existsSync(file) && fs.existsSync(okMark) && fs.readFileSync(okMark, 'utf8').trim().toLowerCase() === String(part.sha256 || '').toLowerCase() && (!part.size || fs.statSync(file).size === part.size);
+    for (let attempt = 0; !good && attempt < 3; attempt++) {
+      if (signal?.aborted) throw new Error('cancelled');
+      let hash;
+      try {
+        hash = await downloadFile(part.url, file, signal, (done) => tell(done));
+      } catch (err) {
+        if (signal?.aborted || attempt === 2) throw err;
+        continue;
+      }
+      if (part.sha256 && hash.toLowerCase() !== part.sha256.toLowerCase()) {
+        if (attempt === 2) throw new Error(`Download was corrupted (piece ${i + 1} of ${build.parts.length}). Try again.`);
+        continue;
+      }
+      fs.writeFileSync(okMark, String(part.sha256 || hash));
+      good = true;
+    }
+    before += part.size || fs.statSync(file).size;
+    tell(0);
+    files.push(file);
+  }
+  onProgress({ phase: 'extract', percent: null });
+  const out = fs.createWriteStream(zipPath);
+  try {
+    for (const f of files) {
+      for await (const chunk of fs.createReadStream(f, { highWaterMark: 4 << 20 })) {
+        if (signal?.aborted) throw new Error('cancelled');
+        if (!out.write(chunk)) await new Promise((r) => out.once('drain', r));
+      }
+      // each piece goes as soon as it is in the zip, so the download never needs double the space
+      await fsp.rm(`${f}.ok`, { force: true }).catch(() => {});
+      await fsp.rm(f, { force: true }).catch(() => {});
+    }
+  } finally {
+    await new Promise((r) => out.end(r));
+  }
 }
 
 module.exports = { GameManager, compareVersions, normalizeCatalog };
